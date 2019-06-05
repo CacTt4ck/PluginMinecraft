@@ -2,12 +2,30 @@ package fr.cactt4ck.cacplugin;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class AutoSmelt extends Enchantment {
+public class AutoSmelt extends Enchantment implements Listener {
 
     public AutoSmelt(int id) {
         super(id);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event){
+        if(event.getPlayer() instanceof Player) {
+            Player p = event.getPlayer();
+
+
+        }
+    }
+
+    @Override
+    public int getId(){
+        return 555;
     }
 
     @Override

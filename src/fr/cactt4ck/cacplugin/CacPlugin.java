@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -25,6 +26,7 @@ public class CacPlugin extends JavaPlugin {
 	public static File authsfile, moneyFile, cfile, spawnFile, homeFile, bankFile;
 	public static ItemMeta goldenAppleMeta;
 	public static ItemStack goldenApple;
+	public AutoSmelt autoSmelt = new AutoSmelt(555);
 
 	public static HashMap<String, Location> back = new HashMap<String, Location>();
 
@@ -129,9 +131,21 @@ public class CacPlugin extends JavaPlugin {
 
         //--------------------------------------------------------//
 
+        this.loadEnchantments();
         this.registerAll();
         this.craftsRegister();
 	}
+
+	private void loadEnchantments(){
+        try {
+            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+            f.setAccessible(true);
+            f.set(null, true);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Enchantment.registerEnchantment(autoSmelt);
+    }
 
 	@Override
 	public void onDisable() {
@@ -151,7 +165,26 @@ public class CacPlugin extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#####################");
+        try {
+            Field byIdField = Enchantment.class.getDeclaredField("byId");
+            Field byNameField = Enchantment.class.getDeclaredField("byName");
+
+            byIdField.setAccessible(true);
+            byNameField.setAccessible(true);
+
+            HashMap<Integer, Enchantment> byId = (HashMap<Integer, Enchantment>) byIdField.get(null);
+            HashMap<Integer, Enchantment> byName = (HashMap<Integer, Enchantment>) byNameField.get(null);
+
+            if(byId.containsKey(autoSmelt.getId())){
+                byId.remove(autoSmelt.getId());
+            }
+            if(byName.containsKey(autoSmelt.getName())){
+                byName.remove(autoSmelt.getName());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#####################");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Disabled!");
 	}
 

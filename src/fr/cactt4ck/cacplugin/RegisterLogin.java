@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 
 import static fr.cactt4ck.cacplugin.LoginListener.spawnLocation;
 
-@SuppressWarnings("all")
 public class RegisterLogin implements CommandExecutor {
 
     @Override
