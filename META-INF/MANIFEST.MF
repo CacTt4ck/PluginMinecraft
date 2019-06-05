@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: fr.cactt4ck.cacplugin
+Main-Class: fr.cactt4ck.cacplugin.CacPlugin
+

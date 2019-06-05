@@ -1,0 +1,163 @@
+name: CacPlugin
+main: fr.cactt4ck.cacplugin.CacPlugin
+version: 0.1
+authors: [CacTt4ck, _thender_]
+description: Un plugin avec toutes sortes de commandes !
+database: false
+load: STARTUP
+commands:
+
+  bc:
+      description: Envoyer un message à tout le serveur.
+      usage: /<command> <message>
+      permission: cacplugin.bc
+
+  tp:
+      description: Téléporte à un autre joueur
+      usage: /<command> <player> | /<command> <player> <player>
+      permission: cacplugin.tp
+
+  tph:
+      description: Téléporte un joueur à vous
+      usage: /<command> <player>
+      permission: cacplugin.tph
+
+  tpall:
+      description: Téléporte tous les joueurs à vous
+      usage: /<command>
+
+  gm:
+      description: Change de mode de jeu
+      usage: /<command>
+      permission: cacplugin.gm
+
+  exit:
+      description: Permet de se déconnecter du serveur
+      usage: /<command>
+
+  punish:
+      description: Permet de punir un joueur
+      usage: /<command> <joueur>
+
+  login:
+      description: Permet de s'authentifier avec son mot de passe
+      usage: /<command> <mot de passe>
+      aliases: [lg, log]
+
+  register:
+      description: Permet de s'authentifier avec son mot de passe
+      usage: /<command> <mot de passe> <mot de passe>
+      aliases: [reg]
+
+  changepass:
+      description: Permet de s'authentifier avec son mot de passe
+      usage: /<command> <nouveau mot de passe> <nouveau mot de passe>
+
+  money:
+      description: Permet d'utiliser les commandes d'économie
+      aliases: [balance, bal]
+
+  pay:
+      description: Permet de payer un joueur
+      usage: /<command> <joueur> <pièces d'or>
+
+  back:
+      description: Vous téléporte à votre mort.
+      usage: /<command>
+
+  setspawn:
+      description: Défini le spawn.
+      usage: /<command>
+      aliases: [ss, sspawn]
+
+  spawn:
+      description: Vous téléporte au spawn.
+      usage: /<command>
+      aliases: [s]
+
+  heal:
+      description: Vous soigne.
+      usage: /<command> | /<command> <joueur>
+
+  feed:
+      description: Vous rassasie.
+      usage: /<command> | /<command> <joueur>
+
+  disable:
+      description: Désactive un plugin.
+      usage: /<command> <plugin name>
+
+  cacrl:
+      description: Actualise la config de Cacplugin.
+      aliases: [crl]
+
+  spotter:
+      description: Active/Désactive la récupération d'items.
+      aliases: [spt]
+
+  alert:
+      description: Avertis un joueur.
+      aliases: [al]
+
+  sun:
+      description: Met le temps clair.
+
+  rain:
+      description: Met le temps pluvieux.
+
+  thunder:
+      description: Met le temps orageux.
+
+  day:
+      description: Met le jour.
+
+  night:
+      description: Met la nuit.
+
+  midday:
+      description: Met le temps à midi
+
+  randomtp:
+      description: Vous téléporte à des coordonnées aléatoires.
+
+  home:
+      description: Vous téléporte à votre home créé au préalable.
+
+  sethome:
+      description: Crée un home avec le nom que vous voulez.
+
+  delhome:
+      description: Supprime un home.
+
+  msg:
+      description: Envoie un message privé à un joueur.
+      aliases: [tell, speak, say]
+
+  remove:
+      description: Enleve un joueur de la liste des personnes enregistrées dans le serveur.
+      aliases: [rm]
+
+  getpos:
+      description: Vous donne les coordonnées et le monde d'un joueur.
+
+  clearchat:
+      description: Clear le chat.
+
+  invsee:
+      description: Ouvre l'inventaire d'un joueur.
+
+  popo:
+      description: Applique l'effet désiré sur un joueur.
+
+  furnace:
+      description: Cuit l'item dans votre main automatiquement.
+
+permissions:
+  cacplugin.*:
+    description: Donne l'accès à toutes les commandes du plugin.
+    children:
+      cacplugin.bc: true
+      cacplugin.rl: true
+  cacplugin.bc:
+     description: Permet l'utilisation de la commande /bc
+     default: false

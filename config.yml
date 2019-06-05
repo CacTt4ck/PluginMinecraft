@@ -1,0 +1,93 @@
+##########################
+#------------------------#
+#----Cacplugin config----#
+#------------------------#
+##########################
+
+# '/player/' correspond au pseudo du joueur
+messages:
+  connexion: /player/ rejoint le serveur !!
+  deconnexion: /player/ quitte le serveur !!
+  firstconnexion: Vous avez reçu le kit de départ !!
+  plugincommand: Désolé mais cette commande n'existe pas!
+  money: $
+
+killer-money:
+  zombie:
+    min: 1
+    max: 2
+  skeleton:
+    min: 1
+    max: 2
+  creeper:
+    min: 1
+    max: 2
+  enderman:
+    min: 1
+    max: 2
+  ender-dragon:
+    min: 100
+    max: 200
+  blaze:
+    min: 1
+    max: 2
+  guardian:
+    min: 1
+    max: 2
+  shulker:
+    min: 1
+    max: 2
+  zombie-villager:
+    min: 1
+    max: 2
+  magmacube:
+    min: 1
+    max: 2
+  slime:
+    min: 1
+    max: 2
+  spider:
+    min: 1
+    max: 2
+  cavespider:
+    min: 1
+    max: 2
+  elder-guardian:
+    min: 1
+    max: 2
+  endermite:
+    min: 1
+    max: 2
+  silverfish:
+    min: 1
+    max: 2
+  evoker:
+    min: 1
+    max: 2
+  ghast:
+    min: 1
+    max: 2
+  husk:
+    min: 1
+    max: 2
+  pigzombie:
+    min: 1
+    max: 2
+  stray:
+    min: 1
+    max: 2
+  vex:
+    min: 1
+    max: 2
+  vindicator:
+    min: 1
+    max: 2
+  wither-skeleton:
+    min: 1
+    max: 2
+  witherboss:
+    min: 50
+    max: 100
+  witch:
+    min: 1
+    max: 2
