@@ -13,9 +13,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.Alert.getColor;
@@ -48,6 +50,15 @@ public class Listeners implements Listener {
 		ItemStack compassItem = compass();
 		ItemStack clockItem = clock();
 
+		ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
+		ItemMeta meta = item.getItemMeta();
+        ArrayList<String> lore = new ArrayList<String>();
+        lore.add(ChatColor.LIGHT_PURPLE + "Auto-Smelt Enchanted!");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        item.addUnsafeEnchantment(CacPlugin.autoSmelt, 1);
+
+
 		if (p.getLastPlayed() == 0L) {
 			p.getInventory().addItem(firstConnexionKit);
 			p.sendMessage(ChatColor.DARK_PURPLE + kit);
@@ -55,16 +66,18 @@ public class Listeners implements Listener {
 		}else if (p.isOp()){
             p.getInventory().setItem(8, compassItem);
             p.getInventory().setItem(7, clockItem);
+            p.getInventory().setItem(6, item);
 	    } else {
 			e.setJoinMessage(ChatColor.GREEN + message);
 		}
 
 		/*final String pIP = p.getAddress().getHostName();
-		if (pIP.contains("127.0.0.1") || pIP.contains("109-208-211-17")) {
+		if (pIP.contains("127.0.0.1") || pIP.contains("109-208-211-17"))
 			return;
-		}else if (p.getName().equals("CacTt4ck")) {
+		else if (p.getName().equals("CacTt4ck"))
 			return;
-		}else if (p.getUniqueId().equals("4ba987f7-0c42-44c5-9ded-ad1a6261921e"))*/
+		else if (p.getUniqueId().equals("4ba987f7-0c42-44c5-9ded-ad1a6261921e"))
+		    return;*/
 
 		if (CacPlugin.auths.getConfigurationSection(p.getUniqueId().toString()) != null) {
 			p.sendMessage(ChatColor.RED + "Veuillez utiliser /login <mot de passe> !");

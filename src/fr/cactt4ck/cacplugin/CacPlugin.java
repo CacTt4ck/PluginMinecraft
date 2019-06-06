@@ -19,14 +19,13 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 
-@SuppressWarnings("all")
 public class CacPlugin extends JavaPlugin {
 	
 	public static FileConfiguration config, auths, money, spawn, home, bank;
 	public static File authsfile, moneyFile, cfile, spawnFile, homeFile, bankFile;
 	public static ItemMeta goldenAppleMeta;
 	public static ItemStack goldenApple;
-	public AutoSmelt autoSmelt = new AutoSmelt(555);
+	public static AutoSmelt autoSmelt = new AutoSmelt(555);
 
 	public static HashMap<String, Location> back = new HashMap<String, Location>();
 
@@ -216,6 +215,7 @@ public class CacPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new SignListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new LobbyGestion(), this);
 		Bukkit.getPluginManager().registerEvents(new ServerGestion(), this);
+		Bukkit.getPluginManager().registerEvents(autoSmelt, this);
 
 		CommandExecutor command1 = new Broadcast();
 			getCommand("bc").setExecutor(command1);
