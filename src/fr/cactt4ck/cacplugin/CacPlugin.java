@@ -16,6 +16,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -134,22 +137,6 @@ public class CacPlugin extends JavaPlugin {
         this.registerAll();
         this.craftsRegister();
 	}
-
-	private void databaseConnection(){
-        try {
-            Class.forName("java.sql.Driver");
-            final String dbusername = config.getString("dbusername");
-            final String dbpassword = config.getString("dbpassword");
-            final String dbip = config.getString("dbip");
-            final String dbname = config.getString("dbname");
-            final String dburl = "jdbc:mysql://" + dbip + "/" + dbname;
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 	private void loadEnchantments(){
         try {

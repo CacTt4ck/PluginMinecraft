@@ -17,12 +17,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.Alert.getColor;
-import static fr.cactt4ck.cacplugin.CacPlugin.config;
-import static fr.cactt4ck.cacplugin.CacPlugin.goldenApple;
+import static fr.cactt4ck.cacplugin.CacPlugin.*;
 import static fr.cactt4ck.cacplugin.LobbyGestion.compass;
 import static fr.cactt4ck.cacplugin.ServerGestion.clock;
 
@@ -59,10 +59,38 @@ public class Listeners implements Listener {
         item.addUnsafeEnchantment(CacPlugin.autoSmelt, 1);
 
 
+        try {
+            Class.forName("java.sql.Driver");
+            String dbusername = config.getString("database.dbusername");
+            String dbpassword = config.getString("database.dbpassword");
+            String dbip = config.getString("database.dbip");
+            String dbname = config.getString("database.dbname");
+            String dburl = "jdbc:mysql://" + dbip + "/" + dbname + "?useSSL=false";
+
+            Connection connection = DriverManager.getConnection(dburl, dbusername, dbpassword);
+            CallableStatement getPlayer = connection.prepareCall("{call get_player(?)}");
+            getPlayer.setString(1, String.valueOf(p.getUniqueId()));
+            getPlayer.execute();
+
+            if(!getPlayer.getResultSet().first()) {
+                CallableStatement call = connection.prepareCall("{call create_player(?,?,?,?)}");
+                call.setString(1, String.valueOf(p.getUniqueId()));
+                call.setString(2, p.getName());
+                call.setString(3, "default");
+                call.setString(4, "AIX");
+                call.execute();
+                connection.close();
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            ex.printStackTrace();
+        }
+
+
 		if (p.getLastPlayed() == 0L) {
 			p.getInventory().addItem(firstConnexionKit);
 			p.sendMessage(ChatColor.DARK_PURPLE + kit);
 			e.setJoinMessage(ChatColor.LIGHT_PURPLE + "Souhaitez la bienvenue à " + p.getName());
+
 		}else if (p.isOp()){
             p.getInventory().setItem(8, compassItem);
             p.getInventory().setItem(7, clockItem);
