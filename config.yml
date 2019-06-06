@@ -12,6 +12,13 @@ messages:
   plugincommand: Désolé mais cette commande n'existe pas!
   money: $
 
+database:
+  dbusername: "root"
+  dbpassword: ""
+  dbname: "java"
+  dbip: "127.0.0.1"
+  dbtable: "cacserve"
+
 killer-money:
   zombie:
     min: 1

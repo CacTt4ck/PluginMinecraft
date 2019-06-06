@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public class Furnace implements CommandExecutor {
+
     @Override
     public boolean onCommand(CommandSender s, Command cmd, String lbl, String[] args) {
 

@@ -135,6 +135,22 @@ public class CacPlugin extends JavaPlugin {
         this.craftsRegister();
 	}
 
+	private void databaseConnection(){
+        try {
+            Class.forName("java.sql.Driver");
+            final String dbusername = config.getString("dbusername");
+            final String dbpassword = config.getString("dbpassword");
+            final String dbip = config.getString("dbip");
+            final String dbname = config.getString("dbname");
+            final String dburl = "jdbc:mysql://" + dbip + "/" + dbname;
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 	private void loadEnchantments(){
         try {
             Field f = Enchantment.class.getDeclaredField("acceptingNew");
