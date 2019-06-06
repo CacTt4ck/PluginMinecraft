@@ -1,5 +1,9 @@
 package fr.cactt4ck.cacplugin;
 
+import net.minecraft.server.v1_12_R1.ChatClickable;
+import net.minecraft.server.v1_12_R1.ChatHoverable;
+import net.minecraft.server.v1_12_R1.ChatModifier;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -15,6 +19,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.CacPlugin.back;
@@ -156,13 +162,13 @@ public class SignListeners implements Listener {
 						p.setHealth(20);
 						p.sendMessage(ChatColor.DARK_PURPLE + "Vous avez été soigné !");
 
-					} else if(sign.getLine(0).equals(ChatColor.DARK_BLUE + "[Bank]")) {
+					} else if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Bank]")) {
 					    double interest = CacPlugin.bank.getDouble("interests.grade.basic");
 					    double money = CacPlugin.money.getDouble(p.getUniqueId() + ".value");
 					    double total = money*(interest/100);
 
 						p.sendMessage("Les intérêts mensuels pour votre grade s'élèvent à " + ChatColor.BOLD + ChatColor.UNDERLINE +
-                                String.valueOf(total) + ChatColor.RESET + CacPlugin.config.get("messages.money") + " par mois");
+                                String.valueOf(total) + CacPlugin.config.get("messages.money") + ChatColor.RESET + " par mois");
 
 					}else if(sign.getLine(0).equalsIgnoreCase(ChatColor.GREEN + "[TP]")){
 						double x,y,z;
@@ -260,7 +266,7 @@ public class SignListeners implements Listener {
 					}else if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Trash]")) {
 
 						p.openInventory(poubelle);
-						resetInventory();
+						this.resetInventory();
 
 					}else if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[cmd]")){
 						final String cmd = sign.getLine(1);
