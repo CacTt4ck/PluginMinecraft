@@ -156,9 +156,10 @@ class FreezerThread extends BukkitRunnable{
 
 	@Override
 	public void run() {
-		this.player.getInventory().clear();
-		this.player.setGameMode(GameMode.SPECTATOR);
-		this.doFreeze = true;
+	    try{
+            this.player.getInventory().clear();
+            this.player.setGameMode(GameMode.SPECTATOR);
+            this.doFreeze = true;
 
 		/*while (doFreeze) {
 			if (!this.player.getLocation().equals(this.location))
@@ -170,9 +171,11 @@ class FreezerThread extends BukkitRunnable{
 			}
 		}*/
 
-		this.player.setGameMode(this.gameMode);
-		this.player.getInventory().setContents(this.inventoryContents);
-		this.doFreeze = false;
+            this.player.setGameMode(this.gameMode);
+            this.player.getInventory().setContents(this.inventoryContents);
+            this.doFreeze = false;
+        }catch (Exception e){}
+
 	}
 
 	public void stopFreezing() {

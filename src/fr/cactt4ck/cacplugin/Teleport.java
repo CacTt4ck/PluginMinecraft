@@ -1,6 +1,9 @@
 package fr.cactt4ck.cacplugin;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -68,7 +71,7 @@ public class Teleport implements CommandExecutor {
 				
 				p.teleport(new Location(p.getWorld(), coordinates[0], coordinates[1], coordinates[2]));
 				p.sendMessage("Vous avez été téléporté aux coordonnées ( " + coordinates[0] + " ; " + coordinates[1] + " ; " + coordinates[2] + " ) !");
-				
+
 				return true;
 				
 			} else if (args.length == 4) { // Teleports a player to the coordinates
