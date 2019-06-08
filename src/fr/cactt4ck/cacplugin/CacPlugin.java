@@ -263,6 +263,7 @@ public class CacPlugin extends JavaPlugin {
 			getCommand("getpos").setExecutor(command17);
 		CommandExecutor command18 = new Invsee();
 			getCommand("invsee").setExecutor(command18);
+			getCommand("invcopy").setExecutor(command18);
         CommandExecutor command19 = new PotionEffectToPlayer();
             getCommand("popo").setExecutor(command19);
         CommandExecutor command20 = new Furnace();

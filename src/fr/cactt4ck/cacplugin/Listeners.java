@@ -80,6 +80,9 @@ public class Listeners implements Listener {
                 call.setString(4, "AIX");
                 call.execute();
                 connection.close();
+                p.sendMessage("Vous êtes désormais enregistré dans la base de donnée !");
+            }else {
+                p.sendMessage("Votre session a été chargée avec succès!");
             }
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();

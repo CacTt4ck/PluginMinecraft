@@ -17,24 +17,30 @@ public class Invsee implements CommandExecutor {
 
         Player p = (Player)s;
         Player t = Bukkit.getServer().getPlayer(args[0]);
+        final UUID uuid = CacUtils.getPlayerUUID(args[0]);
 
-        try{
-            if(cmd.getName().equalsIgnoreCase(("invsee"))){
-                if(args.length == 1){
-                    final UUID uuid = CacUtils.getPlayerUUID(args[0]);
-                    if (uuid == null){
-                        p.sendMessage(ChatColor.RED + "Le joueur " + args[0] + " n'existe pas !");
-                    }else {
-                        Inventory tInv = t.getInventory();
-                        p.openInventory(tInv);
-                    }
-                }else{
-                    p.sendMessage(ChatColor.RED + "/invsee <joueur>!");
+        if(cmd.getName().equalsIgnoreCase(("invsee"))){
+            if(args.length == 1){
+                if (uuid == null){
+                    p.sendMessage(ChatColor.RED + "Le joueur " + args[0] + " n'existe pas !");
+                }else {
+                    Inventory tInv = t.getInventory();
+                    p.openInventory(tInv);
                 }
-            }
-        }catch (CommandException e){
-            e.printStackTrace();
-            p.sendMessage(e.getMessage());
+            }else
+                return false;
+        }else if(cmd.getName().equalsIgnoreCase("invcopy")){
+            if(args.length == 1){
+                if (uuid == null){
+                    p.sendMessage(ChatColor.RED + "Le joueur " + args[0] + " n'existe pas !");
+                }else {
+                    Inventory tInv = t.getInventory(), pInv = p.getInventory();
+                    pInv.setContents(tInv.getContents());
+                    p.openInventory(tInv);
+                    p.sendMessage("L'inventaire de " + ChatColor.LIGHT_PURPLE + t.getName() + " a été copié !");
+                }
+            }else
+                return false;
         }
         return true;
     }
