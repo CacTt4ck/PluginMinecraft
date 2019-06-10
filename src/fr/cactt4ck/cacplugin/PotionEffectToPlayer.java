@@ -1,6 +1,5 @@
 package fr.cactt4ck.cacplugin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,15 +14,14 @@ public class PotionEffectToPlayer implements CommandExecutor {
     public boolean onCommand(CommandSender s, Command cmd, String lbl, String[] args) {
 
         Player p = (Player)s;
-        Player t = Bukkit.getServer().getPlayer(args[0]);
 
         if(cmd.getName().equalsIgnoreCase("popo")){
             if (args.length != 3){
-                p.sendMessage(ChatColor.RED + "Erreur! Faites /popo <effet> <durée en secondes> <niveau de l'effet>!");
+                return false;
             }else{
                 int duree = Integer.valueOf(args[1])*20;
 
-                if      (args[0].equalsIgnoreCase("speed")){
+                if(args[0].equalsIgnoreCase("speed")){
                     p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duree, Integer.valueOf(args[2])));
                 }else if(args[0].equalsIgnoreCase("slowness")){
                     p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duree, Integer.valueOf(args[2])));
@@ -77,9 +75,7 @@ public class PotionEffectToPlayer implements CommandExecutor {
                     p.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, duree, Integer.valueOf(args[2])));
                 }else if(args[0].equalsIgnoreCase("unluck")){
                     p.addPotionEffect(new PotionEffect(PotionEffectType.UNLUCK, duree, Integer.valueOf(args[2])));
-                }else{
-                    p.sendMessage(ChatColor.RED + "Effet non trouvé! Veuillez rééssayer avec un effet valide!");
-                }
+                }else p.sendMessage(ChatColor.RED + "Effet non trouvé! Veuillez rééssayer avec un effet valide!");
             }
         }
         return true;

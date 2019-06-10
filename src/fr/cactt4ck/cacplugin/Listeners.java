@@ -1,9 +1,6 @@
 package fr.cactt4ck.cacplugin;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -68,6 +65,7 @@ public class Listeners implements Listener {
             String dburl = "jdbc:mysql://" + dbip + "/" + dbname + "?useSSL=false";
 
             Connection connection = DriverManager.getConnection(dburl, dbusername, dbpassword);
+
             CallableStatement getPlayer = connection.prepareCall("{call get_player(?)}");
             getPlayer.setString(1, String.valueOf(p.getUniqueId()));
             getPlayer.execute();
@@ -85,7 +83,12 @@ public class Listeners implements Listener {
                 p.sendMessage("Votre session a été chargée avec succès!");
             }
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
+            p.kickPlayer("Database connection offline! Please enable connection");
         }
 
 

@@ -98,63 +98,82 @@ commands:
   alert:
       description: Avertis un joueur.
       aliases: [al]
+      usage: /<command> <joueur>
 
   sun:
       description: Met le temps clair.
+      usage: /<command>
 
   rain:
       description: Met le temps pluvieux.
+      usage: /<command>
 
   thunder:
       description: Met le temps orageux.
+      usage: /<command>
 
   day:
       description: Met le jour.
+      usage: /<command>
 
   night:
       description: Met la nuit.
+      usage: /<command>
 
   midday:
       description: Met le temps à midi
+      usage: /<command>
 
   randomtp:
       description: Vous téléporte à des coordonnées aléatoires.
+      usage: /<command>
 
   home:
       description: Vous téléporte à votre home créé au préalable.
+      usage: /<command> <home>
 
   sethome:
       description: Crée un home avec le nom que vous voulez.
+      usage: /<command> <home>
 
   delhome:
       description: Supprime un home.
+      usage: /<command> <home>
 
   msg:
       description: Envoie un message privé à un joueur.
       aliases: [tell, speak, say]
+      usage: /<command> <joueur>
 
   remove:
       description: Enleve un joueur de la liste des personnes enregistrées dans le serveur.
       aliases: [rm]
+      usage: /<command> <joueur>
 
   getpos:
       description: Récupère les coordonnées et le monde d'un joueur.
+      usage: /<command> <joueur>
 
   clearchat:
       description: Clear le chat.
       aliases: [cc]
+      usage: /<command>
 
   invsee:
       description: Ouvre l'inventaire d'un joueur.
+      usage: /<command> <joueur>
 
   invcopy:
       description: Copie l'inventaire d'un joueur.
+      usage: /<command> <joueur>
 
   popo:
       description: Applique l'effet désiré sur un joueur.
+      usage: /<command> <effet> <durée en sec> <niveau de l'effet>
 
   furnace:
       description: Cuit l'item dans votre main automatiquement.
+      usage: /<command>
 
 permissions:
   cacplugin.*:

@@ -36,7 +36,6 @@ public class SignListeners implements Listener {
 		final Player p = (Player)e.getPlayer();
 		
 		if (e.getLine(0).equalsIgnoreCase("[Heal]")) {
-
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Heal]");
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
@@ -44,14 +43,6 @@ public class SignListeners implements Listener {
 			}
 
 			e.setLine(0, ChatColor.DARK_BLUE + "[Heal]");
-		} else if(e.getLine(0).equalsIgnoreCase("[Bank]")) {
-
-			if (!p.isOp()) {
-				e.setLine(0, ChatColor.DARK_RED + "[Heal]");
-				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
-				return;
-			}
-			e.setLine(0, ChatColor.DARK_BLUE + "[Bank]");
 
 		} else if (e.getLine(0).equalsIgnoreCase("[Feed]")) {
 			
@@ -161,14 +152,6 @@ public class SignListeners implements Listener {
 					if (sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Heal]")) {
 						p.setHealth(20);
 						p.sendMessage(ChatColor.DARK_PURPLE + "Vous avez été soigné !");
-
-					} else if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Bank]")) {
-					    double interest = CacPlugin.bank.getDouble("interests.grade.basic");
-					    double money = CacPlugin.money.getDouble(p.getUniqueId() + ".value");
-					    double total = money*(interest/100);
-
-						p.sendMessage("Les intérêts mensuels pour votre grade s'élèvent à " + ChatColor.BOLD + ChatColor.UNDERLINE +
-                                String.valueOf(total) + CacPlugin.config.get("messages.money") + ChatColor.RESET + " par mois");
 
 					}else if(sign.getLine(0).equalsIgnoreCase(ChatColor.GREEN + "[TP]")){
 						double x,y,z;
