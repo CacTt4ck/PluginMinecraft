@@ -26,7 +26,6 @@ public class CacPlugin extends JavaPlugin {
 	public static ItemMeta goldenAppleMeta;
 	public static ItemStack goldenApple;
 	public static AutoSmelt autoSmelt = new AutoSmelt(555);
-
 	public static HashMap<String, Location> back = new HashMap<String, Location>();
 
 	@Override

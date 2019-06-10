@@ -14,26 +14,23 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.Alert.getColor;
-import static fr.cactt4ck.cacplugin.CacPlugin.*;
+import static fr.cactt4ck.cacplugin.CacPlugin.config;
+import static fr.cactt4ck.cacplugin.CacPlugin.goldenApple;
 import static fr.cactt4ck.cacplugin.LobbyGestion.compass;
 import static fr.cactt4ck.cacplugin.ServerGestion.clock;
 
 @SuppressWarnings("all")
 public class Listeners implements Listener {
 
-	private ItemStack[] firstConnexionKit = new ItemStack[]{
-			new ItemStack(Material.IRON_HELMET, 1),
-			new ItemStack(Material.IRON_CHESTPLATE, 1),
-			new ItemStack(Material.IRON_LEGGINGS, 1),
-			new ItemStack(Material.IRON_BOOTS, 1),
-			new ItemStack(Material.IRON_PICKAXE, 1),
-			new ItemStack(Material.COOKED_BEEF, 64)
-	};
+	private ItemStack[] firstConnexionKit = Kits.getKitWithNumber(1);
 
 	char ch = '&';
 	@EventHandler
@@ -46,6 +43,7 @@ public class Listeners implements Listener {
 
 		ItemStack compassItem = compass();
 		ItemStack clockItem = clock();
+
 
 		ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
 		ItemMeta meta = item.getItemMeta();

@@ -126,7 +126,6 @@ public class LoginListener implements Listener {
 
 }
 
-@SuppressWarnings("all")
 class FreezerThread extends BukkitRunnable{
 
 	private final Player player;
