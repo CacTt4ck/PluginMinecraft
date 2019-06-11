@@ -1,9 +1,5 @@
 package fr.cactt4ck.cacplugin;
 
-import net.minecraft.server.v1_12_R1.ChatClickable;
-import net.minecraft.server.v1_12_R1.ChatHoverable;
-import net.minecraft.server.v1_12_R1.ChatModifier;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import org.bukkit.*;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -19,8 +15,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.CacPlugin.back;
@@ -61,7 +55,10 @@ public class SignListeners implements Listener {
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
 				return;
 			}
-			
+
+			if(e.getBlock().getWorld().getBlockAt(e.getBlock().getLocation().add(0.0,-1.0,0.0)).getType() == Material.CHEST){
+                p.sendMessage("CHEST UNDER ME!");
+            }
 			final int number = this.getTradeNumber(e.getLine(1)), price = this.getTradePrice(e.getLine(3));
 			final ItemStack item = this.getTradeItem(e.getLine(2));
 			

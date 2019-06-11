@@ -55,6 +55,7 @@ public class Listeners implements Listener {
 		ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
 		ItemMeta meta = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<String>();
+        meta.setUnbreakable(false);
         lore.add(ChatColor.LIGHT_PURPLE + "Auto-Smelt Enchanted!");
         meta.setLore(lore);
         item.setItemMeta(meta);
@@ -195,11 +196,10 @@ public class Listeners implements Listener {
 
 	@EventHandler
 	private void itemUse(PlayerItemConsumeEvent e) {
-	    if(e.getItem() == goldenApple){
             if (goldenApple.hasItemMeta()) {
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1200, 4));
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 5));
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20, 10));
             }
-        }
 	}
 }

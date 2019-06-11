@@ -1,5 +1,6 @@
 package fr.cactt4ck.cacplugin;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -14,55 +15,39 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AutoSmelt extends Enchantment implements Listener {
 
-    private ItemStack iron_ingot = new ItemStack(Material.IRON_INGOT);
-    ArrayList<Material> rawBlockList = new ArrayList<Material>();
-    ArrayList<ItemStack> processedBlockList = new ArrayList<ItemStack>();
+    HashMap<Material, Material> blockList = new HashMap<Material, Material>();
 
     public AutoSmelt(int id) {
         super(id);
-        rawBlockList.add(Material.IRON_ORE);
-        rawBlockList.add(Material.GOLD_ORE);
-        rawBlockList.add(Material.STONE);
-        rawBlockList.add(Material.COBBLESTONE);
-
-        processedBlockList.add(new ItemStack(Material.IRON_INGOT));
-        processedBlockList.add(new ItemStack(Material.GOLD_INGOT));
-        processedBlockList.add(new ItemStack(Material.STONE));
+        blockList.put(Material.IRON_ORE, Material.IRON_INGOT);
+        blockList.put(Material.GOLD_ORE, Material.GOLD_INGOT);
+        blockList.put(Material.STONE, Material.STONE);
+        blockList.put(Material.COBBLESTONE, Material.STONE);
+        blockList.put(Material.SAND, Material.GLASS);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockBreak(BlockBreakEvent event){
         if(event.getPlayer() instanceof Player) {
             Player p = event.getPlayer();
+            ItemStack playerHand = p.getInventory().getItemInMainHand();
             Block block = event.getBlock();
             Location loc = new Location(block.getWorld(), block.getX(), block.getY() + 0.5, block.getZ());
 
-            if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(0)){
-                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(0));
-                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
-                event.setCancelled(true);
-                block.setType(Material.AIR);
-
-            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(1)){
-                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(1));
-                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
-                event.setCancelled(true);
-                block.setType(Material.AIR);
-
-            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(2)){
-                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(2));
-                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
-                event.setCancelled(true);
-                block.setType(Material.AIR);
-            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(3)){
-                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(2));
-                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
-                event.setCancelled(true);
-                block.setType(Material.AIR);
+            for (Material raw:
+                 blockList.keySet()) {
+                if(playerHand.containsEnchantment(this) && block.getType() == raw && p.getGameMode() != GameMode.CREATIVE){
+                    block.getLocation().getWorld().dropItemNaturally(loc, new ItemStack(blockList.get(raw)));
+                    block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
+                    block.setType(Material.AIR);
+                    playerHand.setDurability((short) (playerHand.getDurability()+1));
+                }
             }
+
         }
     }
 
