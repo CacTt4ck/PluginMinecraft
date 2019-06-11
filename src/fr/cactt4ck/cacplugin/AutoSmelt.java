@@ -1,8 +1,8 @@
 package fr.cactt4ck.cacplugin;
 
-import org.apache.logging.log4j.core.net.Priority;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -18,16 +18,19 @@ import java.util.ArrayList;
 public class AutoSmelt extends Enchantment implements Listener {
 
     private ItemStack iron_ingot = new ItemStack(Material.IRON_INGOT);
-    ArrayList<Material> oreList = new ArrayList<Material>();
-    ArrayList<ItemStack> ingotList = new ArrayList<ItemStack>();
+    ArrayList<Material> rawBlockList = new ArrayList<Material>();
+    ArrayList<ItemStack> processedBlockList = new ArrayList<ItemStack>();
 
     public AutoSmelt(int id) {
         super(id);
-        oreList.add(Material.IRON_ORE);
-        oreList.add(Material.GOLD_ORE);
+        rawBlockList.add(Material.IRON_ORE);
+        rawBlockList.add(Material.GOLD_ORE);
+        rawBlockList.add(Material.STONE);
+        rawBlockList.add(Material.COBBLESTONE);
 
-        ingotList.add(new ItemStack(Material.IRON_INGOT));
-        ingotList.add(new ItemStack(Material.GOLD_INGOT));
+        processedBlockList.add(new ItemStack(Material.IRON_INGOT));
+        processedBlockList.add(new ItemStack(Material.GOLD_INGOT));
+        processedBlockList.add(new ItemStack(Material.STONE));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -37,15 +40,28 @@ public class AutoSmelt extends Enchantment implements Listener {
             Block block = event.getBlock();
             Location loc = new Location(block.getWorld(), block.getX(), block.getY() + 0.5, block.getZ());
 
-            if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == oreList.get(0)){
-                event.getBlock().getLocation().getWorld().dropItemNaturally(loc, ingotList.get(0));
+            if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(0)){
+                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(0));
+                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
                 event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
+                block.setType(Material.AIR);
 
-            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == oreList.get(1)){
-                event.getBlock().getLocation().getWorld().dropItemNaturally(loc, ingotList.get(1));
+            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(1)){
+                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(1));
+                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
                 event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
+                block.setType(Material.AIR);
+
+            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(2)){
+                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(2));
+                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
+                event.setCancelled(true);
+                block.setType(Material.AIR);
+            }else if(p.getInventory().getItemInMainHand().containsEnchantment(this) && block.getType() == rawBlockList.get(3)){
+                block.getLocation().getWorld().dropItemNaturally(loc, processedBlockList.get(2));
+                block.getLocation().getWorld().spawnParticle(Particle.FLAME, loc, 3);
+                event.setCancelled(true);
+                block.setType(Material.AIR);
             }
         }
     }

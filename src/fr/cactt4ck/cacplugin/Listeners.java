@@ -30,7 +30,14 @@ import static fr.cactt4ck.cacplugin.ServerGestion.clock;
 @SuppressWarnings("all")
 public class Listeners implements Listener {
 
-	private ItemStack[] firstConnexionKit = Kits.getKitWithNumber(1);
+    private ItemStack[] firstConnexionKit = new ItemStack[]{
+            new ItemStack(Material.IRON_HELMET, 1),
+            new ItemStack(Material.IRON_CHESTPLATE, 1),
+            new ItemStack(Material.IRON_LEGGINGS, 1),
+            new ItemStack(Material.IRON_BOOTS, 1),
+            new ItemStack(Material.IRON_PICKAXE, 1),
+            new ItemStack(Material.COOKED_BEEF, 64)
+    };
 
 	char ch = '&';
 	@EventHandler
