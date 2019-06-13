@@ -13,6 +13,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -30,6 +31,12 @@ public class CacPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+
+        JFrame pluginFrame = new JFrame("Plugin Frame");
+        pluginFrame.setVisible(true);
+        pluginFrame.setSize(800,600);
+        pluginFrame.setLocationRelativeTo(null);
+        pluginFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Enabled!");
 
