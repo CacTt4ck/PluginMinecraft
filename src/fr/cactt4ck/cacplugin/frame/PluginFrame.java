@@ -1,5 +1,7 @@
 package fr.cactt4ck.cacplugin.frame;
 
+import org.bukkit.Bukkit;
+
 import javax.swing.*;
 
 public class PluginFrame extends JFrame {
@@ -14,23 +16,33 @@ public class PluginFrame extends JFrame {
         this.setSize(1280,720);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setContentPane(PluginPanel.instance);
+        this.setContentPane(new PluginPanel());
     }
 
 }
 
 class PluginPanel extends JPanel {
 
-    public static PluginPanel instance = null;
-
     public PluginPanel(){
-        if(instance == null)
-            instance = new PluginPanel();
         this.init();
     }
 
     private void init(){
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -258,9 +258,8 @@ public class SignListeners implements Listener {
 	}
 	
 	private void resetInventory() {
-		if (poubelle.getContents() != new ItemStack[]{}) {
+		if (poubelle.getContents() != new ItemStack[]{})
 			poubelle.clear();
-		}
 	}
 	
 	
