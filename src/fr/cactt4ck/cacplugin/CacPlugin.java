@@ -1,5 +1,6 @@
 package fr.cactt4ck.cacplugin;
 
+import fr.cactt4ck.cacplugin.frame.PluginFrame;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -32,11 +33,9 @@ public class CacPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-        JFrame pluginFrame = new JFrame("Plugin Frame");
-        pluginFrame.setVisible(true);
-        pluginFrame.setSize(800,600);
-        pluginFrame.setLocationRelativeTo(null);
-        pluginFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	    SwingUtilities.invokeLater(() -> {
+            new PluginFrame();
+        });
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Enabled!");
 
