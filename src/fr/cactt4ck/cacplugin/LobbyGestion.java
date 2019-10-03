@@ -19,7 +19,7 @@ public class LobbyGestion implements Listener{
 
     private ItemStack overworld = new ItemStack(Material.GRASS);
     private ItemStack nether = new ItemStack(Material.NETHERRACK);
-    private ItemStack end = new ItemStack(Material.ENDER_STONE);
+    private ItemStack end = new ItemStack(Material.END_STONE);
 
     private ItemMeta overworldMeta = overworld.getItemMeta();
     private ItemMeta netherMeta = nether.getItemMeta();
@@ -65,7 +65,7 @@ public class LobbyGestion implements Listener{
         Material netherrack = Material.getMaterial(String.valueOf(nether.getType()));
         Material enderstone = Material.getMaterial(String.valueOf(end.getType()));
 
-        if (inventory.getName().equals(compInv.getName())) {
+        if (inventory.getType().equals(compInv.getType())) {
             if (clicked.getType() == grass) {
                 e.setCancelled(true);
                 p.closeInventory();

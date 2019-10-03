@@ -22,16 +22,16 @@ public class ServerGestion implements Listener {
 
 
 
-    private ItemStack weatherChanger = new ItemStack(Material.DOUBLE_PLANT);
+    private ItemStack weatherChanger = new ItemStack(Material.KELP_PLANT);
     private ItemStack setDay = new ItemStack(Material.GLOWSTONE);
-    private ItemStack setNight = new ItemStack(Material.REDSTONE_LAMP_OFF);
+    private ItemStack setNight = new ItemStack(Material.REDSTONE_LAMP);
     private ItemStack setDiff = new ItemStack(Material.BONE);
     private ItemStack setSun = new ItemStack(Material.LAVA_BUCKET);
     private ItemStack setRain = new ItemStack(Material.WATER_BUCKET);
 
     private ItemStack returnToMain = new ItemStack(Material.BARRIER);
 
-    private ItemStack diff0 = new ItemStack(Material.WOOD_SWORD);
+    private ItemStack diff0 = new ItemStack(Material.WOODEN_SWORD);
     private ItemStack diff1 = new ItemStack(Material.STONE_SWORD);
     private ItemStack diff2 = new ItemStack(Material.IRON_SWORD);
     private ItemStack diff3 = new ItemStack(Material.DIAMOND_SWORD);
@@ -42,7 +42,7 @@ public class ServerGestion implements Listener {
     private ItemStack gm2 = new ItemStack(Material.GOLD_INGOT);
     private ItemStack gm3 = new ItemStack(Material.DIAMOND);
 
-    private ItemStack reload = new ItemStack(Material.WATCH);
+    private ItemStack reload = new ItemStack(Material.CLOCK);
 
 
 
@@ -165,7 +165,7 @@ public class ServerGestion implements Listener {
         Material gm = Material.getMaterial(String.valueOf(setgm.getType()));
         Material rl = Material.getMaterial(String.valueOf(reload.getType()));
 
-        if (inventory.getName().equals(clockInv.getName())) {
+        if (inventory.getType().equals(clockInv.getType())) {
             if (clicked.getType() == weather) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -199,7 +199,7 @@ public class ServerGestion implements Listener {
         Material gamemode3 = Material.getMaterial(String.valueOf(gm3.getType()));
         Material retour = Material.getMaterial(String.valueOf(returnToMain.getType()));
 
-        if (inventory.getName().equalsIgnoreCase(GAMEMODE.getName())) {
+        if (inventory.getType().equals(GAMEMODE.getType())) {
             if (clicked.getType() == gamemode0) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -237,7 +237,7 @@ public class ServerGestion implements Listener {
         Material sun = Material.getMaterial(String.valueOf(setSun.getType()));
         Material rain = Material.getMaterial(String.valueOf(setRain.getType()));
 
-        if(inventory.getName().equalsIgnoreCase(WEATHERCHANGER.getName())){
+        if(inventory.getType().equals(WEATHERCHANGER.getType())){
             if(clicked.getType() == day){
                 e.setCancelled(true);
                 p.closeInventory();
@@ -276,7 +276,7 @@ public class ServerGestion implements Listener {
 
         World w = p.getWorld();
 
-        if(inventory.getName().equalsIgnoreCase(DIFFICULTY.getName())){
+        if(inventory.getType().equals(DIFFICULTY.getType())){
             if(clicked.getType() == peace){
                 e.setCancelled(true);
                 p.closeInventory();
@@ -314,7 +314,7 @@ public class ServerGestion implements Listener {
 
     public static ItemStack clock(){
 
-        ItemStack clockItem = new ItemStack(Material.WATCH);
+        ItemStack clockItem = new ItemStack(Material.CLOCK);
         ItemMeta clockMeta = clockItem.getItemMeta();
 
         clockMeta.setDisplayName(ChatColor.GOLD + "Server Settings");

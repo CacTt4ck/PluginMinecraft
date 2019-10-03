@@ -59,10 +59,9 @@ public class Listeners implements Listener {
         lore.add(ChatColor.LIGHT_PURPLE + "Auto-Smelt Enchanted!");
         meta.setLore(lore);
         item.setItemMeta(meta);
-        item.addUnsafeEnchantment(CacPlugin.autoSmelt, 1);
 
 
-        try {
+        /*try {
             Class.forName("java.sql.Driver");
             String dbusername = config.getString("database.dbusername");
             String dbpassword = config.getString("database.dbpassword");
@@ -95,7 +94,7 @@ public class Listeners implements Listener {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "        Database connection offline".toUpperCase());
             p.kickPlayer("Database connection offline! Please enable connection");
-        }
+        }*/
 
 
 		if (p.getLastPlayed() == 0L) {

@@ -26,24 +26,24 @@ public class Furnace implements CommandExecutor {
                     iih.setType(Material.IRON_INGOT);
                 }else if(iih.getType() == Material.GOLD_ORE){
                     iih.setType(Material.GOLD_INGOT);
-                }else if(iih.getType() == Material.RAW_BEEF) {
+                }else if(iih.getType() == Material.BEEF) {
                     iih.setType(Material.COOKED_BEEF);
-                }else if(iih.getType() == Material.RAW_CHICKEN){
+                }else if(iih.getType() == Material.CHICKEN){
                     iih.setType(Material.COOKED_CHICKEN);
-                }else if(iih.getType() == Material.RAW_FISH){
-                    iih.setType(Material.COOKED_FISH);
+                }else if(iih.getType() == Material.COD){
+                    iih.setType(Material.COOKED_COD);
                 }else if(iih.getType() == Material.MUTTON){
                     iih.setType(Material.COOKED_MUTTON);
                 }else if(iih.getType() == Material.RABBIT){
                     iih.setType(Material.COOKED_RABBIT);
-                }else if(iih.getType() == Material.PORK){
-                    iih.setType(Material.GRILLED_PORK);
+                }else if(iih.getType() == Material.PORKCHOP){
+                    iih.setType(Material.COOKED_PORKCHOP);
                 }else if(iih.getType() == Material.POTATO){
                     iih.setType(Material.BAKED_POTATO);
-                }else if(iih.getType() == Material.LOG){
-                    iih.setType(Material.COAL);
-                }else if(iih.getType() == Material.LOG_2){
-                    iih.setType(Material.COAL);
+                }else if(iih.getType() == Material.OAK_WOOD){
+                    iih.setType(Material.CHARCOAL);
+                }else if(iih.getType() == Material.ACACIA_WOOD){
+                    iih.setType(Material.CHARCOAL);
                 }else if(iih.getType() == Material.COBBLESTONE){
                     iih.setType(Material.STONE);
                 }else if(iih.getType() == Material.SAND){

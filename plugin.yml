@@ -1,6 +1,7 @@
 name: CacPlugin
 main: fr.cactt4ck.cacplugin.CacPlugin
 version: v1.0
+api-version: "1.13"
 authors: [CacTt4ck, _thender_]
 description: Un plugin avec toutes sortes de commandes !
 database: false

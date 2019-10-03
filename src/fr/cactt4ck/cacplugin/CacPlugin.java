@@ -6,18 +6,20 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -27,30 +29,39 @@ public class CacPlugin extends JavaPlugin {
 	public static File authsfile, moneyFile, cfile, spawnFile, homeFile, bankFile;
 	public static ItemMeta goldenAppleMeta;
 	public static ItemStack goldenApple;
-	public static AutoSmelt autoSmelt = new AutoSmelt(555);
 	public static HashMap<String, Location> back = new HashMap<String, Location>();
+	private static JavaPlugin plugin;
+	private PluginFrame frame;
+	public static ConsoleCommandSender consoleCommandSender = Bukkit.getConsoleSender();
+	public static BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+
+	public static Plugin getPlugin() {
+		return plugin;
+	}
 
 	@Override
 	public void onEnable() {
 
-	    SwingUtilities.invokeLater(() -> {
-            new PluginFrame();
-        });
+		plugin = this;
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Enabled!");
+		SwingUtilities.invokeLater(() -> {
+			frame = new PluginFrame();
+		});
 
-        config = getConfig();
-        config.options().copyDefaults(true);
-        cfile = new File(getDataFolder(), "config.yml");
-        saveDefaultConfig();
+		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Enabled!");
 
-        config = YamlConfiguration.loadConfiguration(cfile);
+		config = getConfig();
+		config.options().copyDefaults(true);
+		cfile = new File(getDataFolder(), "config.yml");
+		saveDefaultConfig();
 
-        //--------------------------------------------------------//
+		config = YamlConfiguration.loadConfiguration(cfile);
+
+		//--------------------------------------------------------//
 
 		spawnFile = new File(getDataFolder(), "spawn.yml");
 
-		if(!spawnFile.exists()){
+		if (!spawnFile.exists()) {
 			try {
 				spawnFile.createNewFile();
 			} catch (IOException e) {
@@ -66,7 +77,7 @@ public class CacPlugin extends JavaPlugin {
 
 		bankFile = new File(getDataFolder(), "bank.yml");
 
-		if(!bankFile.exists()){
+		if (!bankFile.exists()) {
 			try {
 				bankFile.createNewFile();
 			} catch (IOException e) {
@@ -75,7 +86,7 @@ public class CacPlugin extends JavaPlugin {
 		}
 
 		bank = YamlConfiguration.loadConfiguration(bankFile);
-		if(bankFile.length() == 0D){
+		if (bankFile.length() == 0D) {
 			bank.set("interests.grade.basic", 10);
 			bank.set("interests.grade.vip", 7.5);
 			bank.set("interests.grade.vipplus", 5);
@@ -89,7 +100,7 @@ public class CacPlugin extends JavaPlugin {
 
 		authsfile = new File(getDataFolder(), "auths.yml");
 
-        if(!authsfile.exists()){
+		if (!authsfile.exists()) {
 			try {
 				authsfile.createNewFile();
 			} catch (IOException e) {
@@ -102,11 +113,11 @@ public class CacPlugin extends JavaPlugin {
 
 		CacPlugin.saveAuths();
 
-        //--------------------------------------------------------//
+		//--------------------------------------------------------//
 
 		moneyFile = new File(getDataFolder(), "money.yml");
 
-		if(!moneyFile.exists()){
+		if (!moneyFile.exists()) {
 			try {
 				moneyFile.createNewFile();
 			} catch (IOException e) {
@@ -121,7 +132,7 @@ public class CacPlugin extends JavaPlugin {
 		//--------------------------------------------------------//
 
 		homeFile = new File(getDataFolder(), "home.yml");
-		if(!homeFile.exists()){
+		if (!homeFile.exists()) {
 			try {
 				homeFile.createNewFile();
 			} catch (IOException e) {
@@ -133,30 +144,20 @@ public class CacPlugin extends JavaPlugin {
 
 		CacPlugin.saveHome();
 
-        //--------------------------------------------------------//
+		//--------------------------------------------------------//
 
-        this.loadEnchantments();
-        this.registerAll();
-        this.craftsRegister();
+		this.registerAll();
+		this.craftsRegister();
 	}
-
-	private void loadEnchantments(){
-        try {
-            Field f = Enchantment.class.getDeclaredField("acceptingNew");
-            f.setAccessible(true);
-            f.set(null, true);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        Enchantment.registerEnchantment(autoSmelt);
-    }
 
 	@Override
 	public void onDisable() {
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#####################");
+		consoleCommandSender.sendMessage(ChatColor.GREEN + "#####################");
 	    saveDefaultConfig();
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#Config File Saved !#");
+		frame.dispose();
+
+		consoleCommandSender.sendMessage(ChatColor.GREEN + "#Config File Saved !#");
 		try {
 			auths.save(authsfile);
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#Auths File Saved ! #");
@@ -169,25 +170,6 @@ public class CacPlugin extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        try {
-            Field byIdField = Enchantment.class.getDeclaredField("byId");
-            Field byNameField = Enchantment.class.getDeclaredField("byName");
-
-            byIdField.setAccessible(true);
-            byNameField.setAccessible(true);
-
-            HashMap<Integer, Enchantment> byId = (HashMap<Integer, Enchantment>) byIdField.get(null);
-            HashMap<Integer, Enchantment> byName = (HashMap<Integer, Enchantment>) byNameField.get(null);
-
-            if(byId.containsKey(autoSmelt.getId())){
-                byId.remove(autoSmelt.getId());
-            }
-            if(byName.containsKey(autoSmelt.getName())){
-                byName.remove(autoSmelt.getName());
-            }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#####################");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Disabled!");
 	}
@@ -220,7 +202,6 @@ public class CacPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new SignListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new LobbyGestion(), this);
 		Bukkit.getPluginManager().registerEvents(new ServerGestion(), this);
-		Bukkit.getPluginManager().registerEvents(autoSmelt, this);
 
 		CommandExecutor command1 = new Broadcast();
 			getCommand("bc").setExecutor(command1);

@@ -305,8 +305,8 @@ public class SignListeners implements Listener {
 		
 		if (itemID == -1)
 			material = Material.matchMaterial(splittedItemName[0]);
-		else
-			material = Material.getMaterial(itemID);
+		/*else
+			material = Material.getMaterial(itemID);*/
 		
 		if (material == null)
 			return null;
