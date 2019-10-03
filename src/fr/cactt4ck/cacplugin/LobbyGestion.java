@@ -65,7 +65,7 @@ public class LobbyGestion implements Listener{
         Material netherrack = Material.getMaterial(String.valueOf(nether.getType()));
         Material enderstone = Material.getMaterial(String.valueOf(end.getType()));
 
-        if (inventory.getType().equals(compInv.getType())) {
+        if (inventory.getType() == compInv.getType()) {
             if (clicked.getType() == grass) {
                 e.setCancelled(true);
                 p.closeInventory();

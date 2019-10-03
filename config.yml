@@ -18,6 +18,7 @@ database:
   dbname: "java"
   dbip: "127.0.0.1"
   dbtable: "cacserve"
+  enabled: false
 
 killer-money:
   zombie:

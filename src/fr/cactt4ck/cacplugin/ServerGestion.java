@@ -22,7 +22,7 @@ public class ServerGestion implements Listener {
 
 
 
-    private ItemStack weatherChanger = new ItemStack(Material.KELP_PLANT);
+    private ItemStack weatherChanger = new ItemStack(Material.TALL_GRASS);
     private ItemStack setDay = new ItemStack(Material.GLOWSTONE);
     private ItemStack setNight = new ItemStack(Material.REDSTONE_LAMP);
     private ItemStack setDiff = new ItemStack(Material.BONE);
@@ -165,7 +165,7 @@ public class ServerGestion implements Listener {
         Material gm = Material.getMaterial(String.valueOf(setgm.getType()));
         Material rl = Material.getMaterial(String.valueOf(reload.getType()));
 
-        if (inventory.getType().equals(clockInv.getType())) {
+        if (inventory.getType() == clockInv.getType()) {
             if (clicked.getType() == weather) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -199,7 +199,7 @@ public class ServerGestion implements Listener {
         Material gamemode3 = Material.getMaterial(String.valueOf(gm3.getType()));
         Material retour = Material.getMaterial(String.valueOf(returnToMain.getType()));
 
-        if (inventory.getType().equals(GAMEMODE.getType())) {
+        if (inventory.getType() == GAMEMODE.getType()) {
             if (clicked.getType() == gamemode0) {
                 e.setCancelled(true);
                 p.closeInventory();
@@ -237,7 +237,7 @@ public class ServerGestion implements Listener {
         Material sun = Material.getMaterial(String.valueOf(setSun.getType()));
         Material rain = Material.getMaterial(String.valueOf(setRain.getType()));
 
-        if(inventory.getType().equals(WEATHERCHANGER.getType())){
+        if(inventory.getType() == WEATHERCHANGER.getType()){
             if(clicked.getType() == day){
                 e.setCancelled(true);
                 p.closeInventory();
@@ -276,7 +276,7 @@ public class ServerGestion implements Listener {
 
         World w = p.getWorld();
 
-        if(inventory.getType().equals(DIFFICULTY.getType())){
+        if(inventory.getType() == DIFFICULTY.getType()){
             if(clicked.getType() == peace){
                 e.setCancelled(true);
                 p.closeInventory();

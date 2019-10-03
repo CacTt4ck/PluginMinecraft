@@ -1,6 +1,7 @@
 package fr.cactt4ck.cacplugin;
 
 import org.bukkit.*;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,14 +22,14 @@ import static fr.cactt4ck.cacplugin.CacPlugin.back;
 
 @SuppressWarnings("all")
 public class SignListeners implements Listener {
-	
+
 	private Inventory poubelle = Bukkit.createInventory(null, 27, "Poubelle");
-	
+
 	@EventHandler
 	private void onSignChange(SignChangeEvent e) {
-		
+
 		final Player p = (Player)e.getPlayer();
-		
+
 		if (e.getLine(0).equalsIgnoreCase("[Heal]")) {
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Heal]");
@@ -39,17 +40,17 @@ public class SignListeners implements Listener {
 			e.setLine(0, ChatColor.DARK_BLUE + "[Heal]");
 
 		} else if (e.getLine(0).equalsIgnoreCase("[Feed]")) {
-			
+
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Feed]");
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
 				return;
 			}
-			
+
 			e.setLine(0, ChatColor.DARK_BLUE + "[Feed]");
-		
+
 		} else if (e.getLine(0).equalsIgnoreCase("[Buy]")) {
-			
+
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Buy]");
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
@@ -57,11 +58,12 @@ public class SignListeners implements Listener {
 			}
 
 			if(e.getBlock().getWorld().getBlockAt(e.getBlock().getLocation().add(0.0,-1.0,0.0)).getType() == Material.CHEST){
-                p.sendMessage("CHEST UNDER ME!");
-            }
+				p.sendMessage("CHEST UNDER ME!");
+
+			}
 			final int number = this.getTradeNumber(e.getLine(1)), price = this.getTradePrice(e.getLine(3));
 			final ItemStack item = this.getTradeItem(e.getLine(2));
-			
+
 			if (number == -1 || item == null || price == -1) {
 				e.getPlayer().sendMessage(ChatColor.RED + "Erreur lors de la création du panneau shop !");
 				e.setLine(0, ChatColor.DARK_RED + "[Buy]");
@@ -75,18 +77,18 @@ public class SignListeners implements Listener {
 				e.setLine(3, ChatColor.BLACK + String.valueOf(price) + " $");
 				e.getPlayer().sendMessage(ChatColor.BLUE + "Panneau créé avec succès !");
 			}
-			
+
 		} else if (e.getLine(0).equalsIgnoreCase("[Sell]")) {
-			
+
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Sell]");
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
 				return;
 			}
-			
+
 			final int number = this.getTradeNumber(e.getLine(1)), price = this.getTradePrice(e.getLine(3));
 			final ItemStack item = this.getTradeItem(e.getLine(2));
-			
+
 			if (number == -1 || item == null || price == -1) {
 				e.getPlayer().sendMessage(ChatColor.RED + "Erreur lors de la création du panneau shop !");
 				e.setLine(0, ChatColor.DARK_RED + "[Sell]");
@@ -100,17 +102,17 @@ public class SignListeners implements Listener {
 				e.setLine(3, ChatColor.BLACK + String.valueOf(price) + " $");
 				e.getPlayer().sendMessage(ChatColor.BLUE + "Panneau créé avec succès !");
 			}
-			
+
 		} else if (e.getLine(0).equalsIgnoreCase("[Trash]")) {
-			
+
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[Trash]");
 				p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission de créer cette pancarte !");
 				return;
 			}
-			
+
 			e.setLine(0, ChatColor.DARK_BLUE + "[Trash]");
-			
+
 		}else if(e.getLine(0).equalsIgnoreCase("[RandomTP]")){
 			if (!p.isOp()) {
 				e.setLine(0, ChatColor.DARK_RED + "[RandomTP]");
@@ -135,7 +137,7 @@ public class SignListeners implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	private void onPlayerInteract(PlayerInteractEvent e) {
 
@@ -183,7 +185,7 @@ public class SignListeners implements Listener {
 						}
 						World world = p.getWorld();
 						Location l = new Location(world, x, y, z);
-						p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 300, 127, false, false));
+						p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 127, false, false));
 						p.teleport(l);
 						p.sendMessage("Vous avez été téléporté en " + x + "  " + y + "  " + z);
 
@@ -198,23 +200,31 @@ public class SignListeners implements Listener {
 						final int number = this.getTradeNumber(sign.getLine(1)), price = this.getTradePrice(sign.getLine(3).replace(" $", ""));
 						final ItemStack item = this.getTradeItem(sign.getLine(2));
 
-						if (number == -1 || item == null || price == -1)
-							p.sendMessage(ChatColor.RED + "Erreur lors de l'achat de l'item ! Il se peut que la pancarte shop soit corrompue !");
-						else {
-							item.setAmount(number);
-							try {
-								Money.takeMoney(p, price);
-							} catch (NotEnoughMoneyException ex) {
-								p.sendMessage(ChatColor.RED + "Vous n'avez pas assez d'argent pour acheter cet article !");
-								return;
+						Chest chest = (Chest)  e.getClickedBlock().getWorld().getBlockAt(e.getClickedBlock().getLocation().add(0.0,-1.0,0.0)).getState();
+						Inventory chestInv = chest.getInventory();
+						if(chestInv.contains(this.getTradeItem(sign.getLine(2)))){
+							p.sendMessage("item contained");
+							if (number == -1 || item == null || price == -1)
+								p.sendMessage(ChatColor.RED + "Erreur lors de l'achat de l'item ! Il se peut que la pancarte shop soit corrompue !");
+							else {
+								item.setAmount(number);
+								try {
+									Money.takeMoney(p, price);
+								} catch (NotEnoughMoneyException ex) {
+									p.sendMessage(ChatColor.RED + "Vous n'avez pas assez d'argent pour acheter cet article !");
+									return;
+								}
+								final HashMap<Integer, ItemStack> itemsLeftMap = p.getInventory().addItem(item);
+								if (itemsLeftMap.size() > 0) {
+									for (ItemStack itemLeft : itemsLeftMap.values())
+										p.getWorld().dropItem(p.getLocation(), itemLeft);
+								}
+								chestInv.removeItem(this.getTradeItem(sign.getLine(2)));
+								p.sendMessage(ChatColor.GREEN + "Achat effectuée !" + ChatColor.RED + " (-" + price + "$)");
 							}
-							final HashMap<Integer, ItemStack> itemsLeftMap = p.getInventory().addItem(item);
-							if (itemsLeftMap.size() > 0) {
-								for (ItemStack itemLeft : itemsLeftMap.values())
-									p.getWorld().dropItem(p.getLocation(), itemLeft);
-							}
-							p.sendMessage(ChatColor.GREEN + "Achat effectuée !" + ChatColor.RED + " (-" + price + "$)");
 						}
+
+
 
 					} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Sell]")) {
 
@@ -256,42 +266,42 @@ public class SignListeners implements Listener {
 			}
 		}
 	}
-	
+
 	private void resetInventory() {
 		if (poubelle.getContents() != new ItemStack[]{})
 			poubelle.clear();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	private int getTradeNumber(final String numberLine) {
 		int number = -1;
-		
+
 		try {
 			number = Integer.valueOf(numberLine);
 		} catch(NumberFormatException ex) {
 			number = -1;
 		}
-		
+
 		if (number <= 0 || number > 64)
 			return -1;
-		
+
 		return number;
 	}
-	
+
 	private ItemStack getTradeItem(final String itemLine) {
 		int itemID = -1;
 		short itemMeta = 0;
 		final String[] splittedItemName = itemLine.replace("minecraft:", "").split(":");
-		
+
 		try {
 			itemID = Integer.valueOf(splittedItemName[0]);
 		} catch (NumberFormatException ex) {
 			itemID = -1;
 		}
-		
+
 		if (splittedItemName.length > 1) {
 			try {
 				itemMeta = Short.valueOf(splittedItemName[1]);
@@ -302,36 +312,37 @@ public class SignListeners implements Listener {
 
 		@Deprecated
 		Material material = null;
-		
+
 		if (itemID == -1)
 			material = Material.matchMaterial(splittedItemName[0]);
-		/*else
-			material = Material.getMaterial(itemID);*/
-		
+		else
+			//material = Material.getMaterial(itemID);
+			material = material.getMaterial(String.valueOf(itemID));
+
 		if (material == null)
 			return null;
-		
+
 		ItemStack item = new ItemStack(material);
-		
+
 		if (itemMeta > 0)
 			item.setDurability(itemMeta);
-		
+
 		return item;
 	}
-	
+
 	private int getTradePrice(final String priceLine) {
 		int price = -1;
-		
+
 		try {
 			price = Integer.valueOf(priceLine);
 		} catch(NumberFormatException ex) {
 			price = -1;
 		}
-		
+
 		if (price < 0)
 			return -1;
-		
+
 		return price;
 	}
-	
+
 }

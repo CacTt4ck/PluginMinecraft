@@ -30,8 +30,10 @@ public class Furnace implements CommandExecutor {
                     iih.setType(Material.COOKED_BEEF);
                 }else if(iih.getType() == Material.CHICKEN){
                     iih.setType(Material.COOKED_CHICKEN);
-                }else if(iih.getType() == Material.COD){
+                }else if(iih.getType() == Material.COD) {
                     iih.setType(Material.COOKED_COD);
+                }else if(iih.getType() == Material.SALMON){
+                    iih.setType(Material.COOKED_SALMON);
                 }else if(iih.getType() == Material.MUTTON){
                     iih.setType(Material.COOKED_MUTTON);
                 }else if(iih.getType() == Material.RABBIT){
@@ -40,9 +42,17 @@ public class Furnace implements CommandExecutor {
                     iih.setType(Material.COOKED_PORKCHOP);
                 }else if(iih.getType() == Material.POTATO){
                     iih.setType(Material.BAKED_POTATO);
-                }else if(iih.getType() == Material.OAK_WOOD){
+                }else if(iih.getType() == Material.OAK_LOG){
                     iih.setType(Material.CHARCOAL);
-                }else if(iih.getType() == Material.ACACIA_WOOD){
+                }else if(iih.getType() == Material.ACACIA_LOG){
+                    iih.setType(Material.CHARCOAL);
+                }else if(iih.getType() == Material.BIRCH_LOG){
+                    iih.setType(Material.CHARCOAL);
+                }else if(iih.getType() == Material.DARK_OAK_LOG){
+                    iih.setType(Material.CHARCOAL);
+                }else if(iih.getType() == Material.JUNGLE_LOG){
+                    iih.setType(Material.CHARCOAL);
+                }else if(iih.getType() == Material.SPRUCE_LOG){
                     iih.setType(Material.CHARCOAL);
                 }else if(iih.getType() == Material.COBBLESTONE){
                     iih.setType(Material.STONE);
@@ -56,6 +66,7 @@ public class Furnace implements CommandExecutor {
                     iih.setType(Material.BRICK);
                 }else{
                     p.sendMessage(ChatColor.RED + "Cet item ne peut pas être cuit!");
+                    return true;
                 }
                 p.giveExp(numberOfItems);
                 p.sendMessage(ChatColor.GREEN + "Le contenu de votre main a été cuit!");
