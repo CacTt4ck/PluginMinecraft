@@ -254,6 +254,8 @@ public class CacPlugin extends JavaPlugin {
             getCommand("popo").setExecutor(command19);
         CommandExecutor command20 = new Furnace();
             getCommand("furnace").setExecutor(command20);
+        CommandExecutor command21 = new Bot();
+            getCommand("bot").setExecutor(command21);
 	}
 
 	public static void saveAuths(){

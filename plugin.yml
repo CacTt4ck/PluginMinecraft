@@ -13,6 +13,10 @@ commands:
       usage: /<command> <message>
       permission: cacplugin.bc
 
+  bot:
+      description: Commande pour le bot.
+      usage: /bot <...>
+
   tp:
       description: Téléporte à un autre joueur
       usage: /<command> <player> | /<command> <player> <player>
