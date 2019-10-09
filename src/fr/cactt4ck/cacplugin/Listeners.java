@@ -23,7 +23,6 @@ import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.Alert.getColor;
 import static fr.cactt4ck.cacplugin.CacPlugin.config;
-import static fr.cactt4ck.cacplugin.CacPlugin.goldenApple;
 import static fr.cactt4ck.cacplugin.LobbyGestion.compass;
 import static fr.cactt4ck.cacplugin.ServerGestion.clock;
 
@@ -191,14 +190,5 @@ public class Listeners implements Listener {
 			e.setMessage(ChatColor.translateAlternateColorCodes(ch, msg));
 		}
 
-	}
-
-	@EventHandler
-	private void itemUse(PlayerItemConsumeEvent e) {
-            if (goldenApple.hasItemMeta()) {
-                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 1200, 4));
-                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 300, 5));
-                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20, 10));
-            }
 	}
 }

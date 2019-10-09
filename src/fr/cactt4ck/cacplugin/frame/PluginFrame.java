@@ -17,6 +17,7 @@ public class PluginFrame extends JFrame {
         this.setVisible(true);
         this.setSize(1280,720);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setContentPane(new PluginPanel());
     }
@@ -25,9 +26,10 @@ public class PluginFrame extends JFrame {
 
 class PluginPanel extends JPanel {
 
-    private JLabel title;
+    private JLabel title, enterCommand;
     private JButton sendCommandButton;
-    private JTextArea commandField;
+    private JTextField commandField;
+    private JPanel textFieldPanel;
 
     public PluginPanel(){
         this.setLayout(new BorderLayout());
@@ -50,15 +52,30 @@ class PluginPanel extends JPanel {
 
     private void sendCommand(){
         sendCommandButton = new JButton("Send Command!");
-        sendCommandButton.addActionListener( e -> {
-            CacPlugin.scheduler.callSyncMethod(CacPlugin.getPlugin(), () -> CacPlugin.consoleCommandSender.getServer().dispatchCommand(CacPlugin.consoleCommandSender, commandField.getText()));
-        });
+        sendCommandButton.addActionListener( e -> this.sendCommandAction());
         this.add(sendCommandButton, BorderLayout.SOUTH);
     }
 
     private void commandField(){
-        commandField = new JTextArea();
-        this.add(commandField, BorderLayout.CENTER);
+        commandField = new JTextField();
+        commandField.addActionListener(e -> this.sendCommandAction());
+        commandField.setPreferredSize(new Dimension(200,50));
+
+        enterCommand = new JLabel("Entrez une commande ici");
+        enterCommand.setFont(new Font("Monaco", Font.PLAIN, 20));
+
+        textFieldPanel = new JPanel();
+        textFieldPanel.setBorder(BorderFactory.createEmptyBorder(260,0,260,10));
+        textFieldPanel.setLayout(new BorderLayout());
+        textFieldPanel.add(commandField, BorderLayout.SOUTH);
+        textFieldPanel.add(enterCommand, BorderLayout.NORTH);
+        this.add(textFieldPanel, BorderLayout.EAST);
+    }
+
+    //-----------------------------------------------------------------------//
+
+    private void sendCommandAction(){
+        CacPlugin.scheduler.callSyncMethod(CacPlugin.getPlugin(), () -> CacPlugin.consoleCommandSender.getServer().dispatchCommand(CacPlugin.consoleCommandSender, commandField.getText()));
     }
 
 }

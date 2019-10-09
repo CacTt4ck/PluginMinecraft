@@ -4,15 +4,10 @@ import fr.cactt4ck.cacplugin.frame.PluginFrame;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -20,15 +15,12 @@ import org.bukkit.scheduler.BukkitScheduler;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class CacPlugin extends JavaPlugin {
 	
 	public static FileConfiguration config, auths, money, spawn, home, bank;
 	public static File authsfile, moneyFile, cfile, spawnFile, homeFile, bankFile;
-	public static ItemMeta goldenAppleMeta;
-	public static ItemStack goldenApple;
 	public static HashMap<String, Location> back = new HashMap<String, Location>();
 	private static JavaPlugin plugin;
 	private PluginFrame frame;
@@ -147,7 +139,6 @@ public class CacPlugin extends JavaPlugin {
 		//--------------------------------------------------------//
 
 		this.registerAll();
-		this.craftsRegister();
 	}
 
 	@Override
@@ -172,26 +163,6 @@ public class CacPlugin extends JavaPlugin {
 		}
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "#####################");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Disabled!");
-	}
-
-    private void craftsRegister(){
-
-        goldenApple = new ItemStack(Material.GOLDEN_APPLE);
-		goldenAppleMeta = goldenApple.getItemMeta();
-		goldenAppleMeta.setDisplayName(ChatColor.BLUE + "Diamond Apple");
-		goldenAppleMeta.setLore(Arrays.asList(ChatColor.DARK_PURPLE + "Mangez cette pomme", ChatColor.DARK_PURPLE
-                + "et vous obtiendrez", ChatColor.DARK_PURPLE + "des très bons effets!"));
-
-		goldenAppleMeta.addEnchant(Enchantment.DURABILITY, 10, true);
-		goldenApple.setItemMeta(goldenAppleMeta);
-
-        ShapedRecipe diamondApple = new ShapedRecipe(goldenApple);
-        diamondApple.shape("***",
-                           "*!*",
-                           "***");
-        diamondApple.setIngredient('*', Material.DIAMOND_BLOCK);
-        diamondApple.setIngredient('!', Material.GOLDEN_APPLE);
-        Bukkit.getServer().addRecipe(diamondApple);
 	}
 
     private void registerAll(){
@@ -254,8 +225,6 @@ public class CacPlugin extends JavaPlugin {
             getCommand("popo").setExecutor(command19);
         CommandExecutor command20 = new Furnace();
             getCommand("furnace").setExecutor(command20);
-        CommandExecutor command21 = new Bot();
-            getCommand("bot").setExecutor(command21);
 	}
 
 	public static void saveAuths(){
