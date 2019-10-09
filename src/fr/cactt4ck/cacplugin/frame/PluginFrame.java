@@ -59,16 +59,16 @@ class PluginPanel extends JPanel {
     private void commandField(){
         commandField = new JTextField();
         commandField.addActionListener(e -> this.sendCommandAction());
-        commandField.setPreferredSize(new Dimension(200,50));
+        commandField.setPreferredSize(new Dimension(200,20));
 
         enterCommand = new JLabel("Entrez une commande ici");
         enterCommand.setFont(new Font("Monaco", Font.PLAIN, 20));
 
         textFieldPanel = new JPanel();
-        textFieldPanel.setBorder(BorderFactory.createEmptyBorder(260,0,260,10));
-        textFieldPanel.setLayout(new BorderLayout());
-        textFieldPanel.add(commandField, BorderLayout.SOUTH);
-        textFieldPanel.add(enterCommand, BorderLayout.NORTH);
+        textFieldPanel.setBorder(BorderFactory.createEmptyBorder(10,0,510,10));
+        textFieldPanel.setLayout(new GridLayout(2,1));
+        textFieldPanel.add(enterCommand);
+        textFieldPanel.add(commandField);
         this.add(textFieldPanel, BorderLayout.EAST);
     }
 
