@@ -27,12 +27,12 @@ public class PluginFrame extends JFrame {
 class PluginPanel extends JPanel {
 
     private JLabel title, enterCommand;
-    private JButton sendCommandButton;
+    private JButton sendCommandButton, playerButton;
     private JTextField commandField;
     private JPanel textFieldPanel;
 
     public PluginPanel(){
-        this.setLayout(new BorderLayout());
+        super(new BorderLayout());
         this.init();
     }
 
@@ -40,6 +40,15 @@ class PluginPanel extends JPanel {
         this.title();
         this.sendCommand();
         this.commandField();
+        this.playerButton();
+    }
+
+    private void playerButton() {
+        playerButton = new JButton("Open Player Control");
+        playerButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> new PlayerFrame());
+        });
+        this.add(playerButton, BorderLayout.WEST);
     }
 
     private void title(){
@@ -76,6 +85,47 @@ class PluginPanel extends JPanel {
 
     private void sendCommandAction(){
         CacPlugin.scheduler.callSyncMethod(CacPlugin.getPlugin(), () -> CacPlugin.consoleCommandSender.getServer().dispatchCommand(CacPlugin.consoleCommandSender, commandField.getText()));
+        commandField.setText("");
+    }
+
+}
+
+class PlayerFrame extends JDialog{
+
+    public PlayerFrame(){
+        super();
+        this.init();
+    }
+
+    private void init() {
+        this.setModal(true);
+        this.setSize(800,600);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setContentPane(new PlayerPanel());
+        this.setVisible(true);
+    }
+
+}
+
+class PlayerPanel extends JPanel {
+
+    private JButton button;
+
+    public PlayerPanel() {
+        super(new BorderLayout());
+        this.init();
+    }
+
+    private void init() {
+        this.button();
+    }
+
+    private void button(){
+        button = new JButton("Test");
+        button.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(button, BorderLayout.NORTH);
     }
 
 }
