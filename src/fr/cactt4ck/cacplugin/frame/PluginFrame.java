@@ -2,9 +2,15 @@ package fr.cactt4ck.cacplugin.frame;
 
 import fr.cactt4ck.cacplugin.CacPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class PluginFrame extends JFrame {
 
@@ -39,7 +45,6 @@ class PluginPanel extends JPanel {
 
     private void init(){
         this.title();
-        this.sendCommand();
         this.commandField();
         this.playerButton();
     }
@@ -63,12 +68,6 @@ class PluginPanel extends JPanel {
         this.add(title, BorderLayout.NORTH);
     }
 
-    private void sendCommand(){
-        sendCommandButton = new JButton("Send Command!");
-        sendCommandButton.addActionListener( e -> this.sendCommandAction());
-        this.add(sendCommandButton, BorderLayout.SOUTH);
-    }
-
     private void commandField(){
         commandField = new JTextField();
         commandField.addActionListener(e -> this.sendCommandAction());
@@ -77,11 +76,15 @@ class PluginPanel extends JPanel {
         enterCommand = new JLabel("Entrez une commande ici");
         enterCommand.setFont(new Font("Monaco", Font.PLAIN, 20));
 
+        sendCommandButton = new JButton("Send Command!");
+        sendCommandButton.addActionListener( e -> this.sendCommandAction());
+
         textFieldPanel = new JPanel();
-        textFieldPanel.setBorder(BorderFactory.createEmptyBorder(10,0,510,10));
-        textFieldPanel.setLayout(new GridLayout(2,1));
+        textFieldPanel.setBorder(BorderFactory.createEmptyBorder(10,0,0,10));
+        textFieldPanel.setLayout(new GridLayout(20,1));
         textFieldPanel.add(enterCommand);
         textFieldPanel.add(commandField);
+        textFieldPanel.add(sendCommandButton);
         this.add(textFieldPanel, BorderLayout.EAST);
     }
 
@@ -92,6 +95,28 @@ class PluginPanel extends JPanel {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class PlayerFrame extends JDialog{
 
@@ -115,14 +140,32 @@ class PlayerFrame extends JDialog{
 class PlayerPanel extends JPanel {
 
     private JButton button;
+    private Image playerIcon;
 
     public PlayerPanel() {
         super(new BorderLayout());
         this.init();
+        this.displayPlayerIcon();
     }
 
     private void init() {
         this.button();
+    }
+
+    private void displayPlayerIcon(){
+        for (Player p : CacPlugin.getPlugin().getServer().getOnlinePlayers()) {
+            try {
+                playerIcon = ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(16,16,0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(playerIcon, 0,0, null);
     }
 
     private void button(){
