@@ -14,12 +14,13 @@ public class PluginFrame extends JFrame {
     }
 
     private void init(){
-        this.setVisible(true);
+        this.setUndecorated(true);
         this.setSize(1280,720);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setContentPane(new PluginPanel());
+        this.setVisible(true);
     }
 
 }
@@ -29,7 +30,7 @@ class PluginPanel extends JPanel {
     private JLabel title, enterCommand;
     private JButton sendCommandButton, playerButton;
     private JTextField commandField;
-    private JPanel textFieldPanel;
+    private JPanel textFieldPanel, playerFramePanel;
 
     public PluginPanel(){
         super(new BorderLayout());
@@ -48,7 +49,10 @@ class PluginPanel extends JPanel {
         playerButton.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> new PlayerFrame());
         });
-        this.add(playerButton, BorderLayout.WEST);
+        playerFramePanel = new JPanel();
+        playerFramePanel.setLayout(new GridLayout(10,1));
+        playerFramePanel.add(playerButton);
+        this.add(playerFramePanel, BorderLayout.WEST);
     }
 
     private void title(){
@@ -85,7 +89,6 @@ class PluginPanel extends JPanel {
 
     private void sendCommandAction(){
         CacPlugin.scheduler.callSyncMethod(CacPlugin.getPlugin(), () -> CacPlugin.consoleCommandSender.getServer().dispatchCommand(CacPlugin.consoleCommandSender, commandField.getText()));
-        commandField.setText("");
     }
 
 }
