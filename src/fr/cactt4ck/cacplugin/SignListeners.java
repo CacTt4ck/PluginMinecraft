@@ -201,8 +201,9 @@ public class SignListeners implements Listener {
 						final ItemStack item = this.getTradeItem(sign.getLine(2));
 
 						Chest chest = (Chest)  e.getClickedBlock().getWorld().getBlockAt(e.getClickedBlock().getLocation().add(0.0,-1.0,0.0)).getState();
-						Inventory chestInv = chest.getInventory();
-						if(chestInv.contains(this.getTradeItem(sign.getLine(2)))){
+						Inventory chestInv = chest.getBlockInventory();
+
+						if(chestInv.contains(new ItemStack(this.getTradeItem(sign.getLine(2))).getType())){
 							p.sendMessage("item contained");
 							if (number == -1 || item == null || price == -1)
 								p.sendMessage(ChatColor.RED + "Erreur lors de l'achat de l'item ! Il se peut que la pancarte shop soit corrompue !");
@@ -219,12 +220,12 @@ public class SignListeners implements Listener {
 									for (ItemStack itemLeft : itemsLeftMap.values())
 										p.getWorld().dropItem(p.getLocation(), itemLeft);
 								}
-								chestInv.removeItem(this.getTradeItem(sign.getLine(2)));
-								p.sendMessage(ChatColor.GREEN + "Achat effectuée !" + ChatColor.RED + " (-" + price + "$)");
+								chestInv.removeItem(new ItemStack(this.getTradeItem(sign.getLine(2)).getType(), Integer.valueOf(sign.getLine(1))));
+								p.sendMessage(ChatColor.GREEN + "Achat effectué !" + ChatColor.RED + " (-" + price + "$)");
 							}
+						}else {
+							p.sendMessage(ChatColor.RED + "Désolé mais il n'y a plus d'objet en stock");
 						}
-
-
 
 					} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Sell]")) {
 

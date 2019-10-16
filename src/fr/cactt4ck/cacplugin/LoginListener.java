@@ -84,15 +84,6 @@ public class LoginListener implements Listener {
 			CacPlugin.saveMoney();
 		}
 
-		/*final String pIP = player.getAddress().getHostName();
-		if (pIP.contains("127.0.0.1") || pIP.contains("82-66-160-178")) {
-			player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bienvenue CacTt4ck sur votre serveur ! Votre session est automatiquement chargée !");
-			return;
-		}else if(player.getName().equalsIgnoreCase("CacTt4ck")){
-			player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bienvenue CacTt4ck sur votre serveur ! Votre session est automatiquement chargée !");
-			return;
-		}*/
-
 		FreezerThread playerFreezer = new FreezerThread(player);
 		LoginListener.currentLogins.add(playerFreezer);
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, playerFreezer);

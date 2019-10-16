@@ -103,8 +103,7 @@ public class Listeners implements Listener {
 
 		}else if (p.isOp()){
             p.getInventory().setItem(8, compassItem);
-            p.getInventory().setItem(7, clockItem);
-            p.getInventory().setItem(6, item);
+            p.getInventory().setItem(7, clockItem);;
 	    } else {
 			e.setJoinMessage(ChatColor.GREEN + message);
 		}

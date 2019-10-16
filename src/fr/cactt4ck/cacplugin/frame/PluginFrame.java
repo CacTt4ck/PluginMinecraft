@@ -145,27 +145,24 @@ class PlayerPanel extends JPanel {
     public PlayerPanel() {
         super(new BorderLayout());
         this.init();
-        this.displayPlayerIcon();
     }
 
     private void init() {
         this.button();
     }
 
-    private void displayPlayerIcon(){
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         for (Player p : CacPlugin.getPlugin().getServer().getOnlinePlayers()) {
             try {
-                playerIcon = ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(16,16,0);
+                playerIcon = ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(64,64,0);
+                g.drawImage(playerIcon, 100,100, null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(playerIcon, 0,0, null);
+        repaint();
     }
 
     private void button(){
