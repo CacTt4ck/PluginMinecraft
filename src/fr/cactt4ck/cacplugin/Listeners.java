@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static fr.cactt4ck.cacplugin.Alert.getColor;
@@ -38,27 +39,38 @@ public class Listeners implements Listener {
             new ItemStack(Material.COOKED_BEEF, 64)
     };
 
+    private static List<Performer<Player>> onJoinListeners = new ArrayList<Performer<Player>>(), onQuitListeners = new ArrayList<Performer<Player>>();
+
+    public static void addOnJoinListener(Performer<Player> p){
+    	onJoinListeners.add(p);
+	}
+
+	public static void removeOnJoinListener(Performer<Player> p){
+		onJoinListeners.remove(p);
+	}
+
+	public static void addOnQuitListener(Performer<Player> p){
+		onQuitListeners.add(p);
+	}
+
+	public static void removeOnQuitListener(Performer<Player> p){
+		onQuitListeners.remove(p);
+	}
+
 	char ch = '&';
 	@EventHandler
 	private void onPlayerJoin(PlayerJoinEvent e) {
-
 		Player p = e.getPlayer();
+
+		for (Performer<Player> perf : onJoinListeners){
+			perf.perform(p);
+		}
 
 		String message = config.getString("messages.connexion").replace("/player/", p.getName());
 		String kit = config.getString("messages.firstconnexion");
 
 		ItemStack compassItem = compass();
 		ItemStack clockItem = clock();
-
-
-		ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
-		ItemMeta meta = item.getItemMeta();
-        ArrayList<String> lore = new ArrayList<String>();
-        meta.setUnbreakable(false);
-        lore.add(ChatColor.LIGHT_PURPLE + "Auto-Smelt Enchanted!");
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-
 
         /*try {
             Class.forName("java.sql.Driver");
@@ -126,11 +138,13 @@ public class Listeners implements Listener {
 
 	@EventHandler
 	private void onPlayerQuit(PlayerQuitEvent e) {
-
 		Player p = e.getPlayer();
 
-		String message = CacPlugin.config.getString("messages.deconnexion").replace("/player/", p.getName());
+		for (Performer<Player> perf : onQuitListeners){
+			perf.perform(p);
+		}
 
+		String message = CacPlugin.config.getString("messages.deconnexion").replace("/player/", p.getName());
 		e.setQuitMessage(ChatColor.GREEN + message);
 	}
 

@@ -1,16 +1,26 @@
 package fr.cactt4ck.cacplugin.frame;
 
 import fr.cactt4ck.cacplugin.CacPlugin;
+import fr.cactt4ck.cacplugin.Listeners;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class PluginFrame extends JFrame {
 
@@ -130,6 +140,7 @@ class PlayerFrame extends JDialog{
         this.setSize(800,600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.setTitle("Player control");
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setContentPane(new PlayerPanel());
         this.setVisible(true);
@@ -139,36 +150,104 @@ class PlayerFrame extends JDialog{
 
 class PlayerPanel extends JPanel {
 
-    private JButton button;
     private Image playerIcon;
 
     public PlayerPanel() {
-        super(new BorderLayout());
+        this.setLayout(null);
+        Listeners.addOnJoinListener(p -> this.refresh());
+        Listeners.addOnQuitListener(p -> this.refresh());
         this.init();
     }
 
-    private void init() {
-        this.button();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        for (Player p : CacPlugin.getPlugin().getServer().getOnlinePlayers()) {
+    private void refresh() {
+        new Thread(() -> {
             try {
-                playerIcon = ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(64,64,0);
-                g.drawImage(playerIcon, 100,100, null);
-            } catch (IOException e) {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            this.removeAll();
+            this.init();
+            this.revalidate();
+            this.repaint();
+        }).start();
+    }
+
+    private void init() {
+        Collection<? extends Player> players = CacPlugin.getPlugin().getServer().getOnlinePlayers();
+        int i = 0;
+        for (Player p : players) {
+            final JLabel pLabel = new JLabel();
+            pLabel.setSize(64,64);
+            pLabel.setLocation(((i)%12*64)+10*(i+1), ((i)/12*64)+10*((i/12)+1));
+            try {
+                pLabel.setIcon(new ImageIcon(ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(64,64,0)));
+            } catch (IOException e) {e.printStackTrace();}
+            JPopupMenu menu = this.getPlayerMenu(p);
+            pLabel.setComponentPopupMenu(menu);
+            pLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    if(e.getButton() == MouseEvent.BUTTON1){
+                        menu.show(pLabel, e.getX(), e.getY());
+                    }
+                }
+            });
+            this.add(pLabel);
+            i++;
         }
-        repaint();
     }
 
-    private void button(){
-        button = new JButton("Test");
-        button.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(button, BorderLayout.NORTH);
-    }
+    private JPopupMenu getPlayerMenu(Player p){
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem name = new JMenuItem(p.getName());
+        name.setEnabled(false);
+        menu.add(name);
+        menu.addSeparator();
 
+        JMenuItem kick = new JMenuItem("Kick");
+        kick.addActionListener(e -> Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> p.kickPlayer("Kicked by an operator!")));
+        menu.add(kick);
+
+        JMenuItem ban = new JMenuItem("Ban");
+        ban.addActionListener(e -> Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> Bukkit.getBanList(BanList.Type.NAME).addBan(p.getName(),"You have been banned by an operator",
+                new Date(Long.MAX_VALUE),null)));
+        menu.add(ban);
+
+        JMenuItem sendMessage = new JMenuItem("Send Message...");
+        sendMessage.addActionListener(e -> {
+            String message = JOptionPane.showInputDialog(this, "Write your message here :", "Send message to " + p.getName(), JOptionPane.QUESTION_MESSAGE);
+            if(message != null && !message.trim().equals("")){
+                Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> p.sendMessage(message));
+            }
+        });
+        menu.add(sendMessage);
+
+        JMenuItem op = new JMenuItem("Op");
+        op.addActionListener(e -> Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> {
+            p.setOp(true);
+            p.sendMessage(ChatColor.GRAY + "You have been opped by an operator");
+        }));
+        menu.add(op);
+
+        JMenuItem deop = new JMenuItem("Deop");
+        deop.addActionListener(e -> Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> {
+            p.setOp(false);
+            p.sendMessage(ChatColor.GRAY + "You have been deopped by an operator");
+        }));
+        menu.add(deop);
+
+        JMenuItem gamemode = new JMenuItem("Gamemode...");
+        gamemode.addActionListener(e -> {
+            GameMode[] gamemodes = {GameMode.SURVIVAL, GameMode.CREATIVE, GameMode.ADVENTURE, GameMode.SPECTATOR};
+            Object gm = JOptionPane.showInputDialog(this, "Choose " + p.getName() + "gamemode :", "Set gamemode of " + p.getName(),
+                    JOptionPane.QUESTION_MESSAGE, null, gamemodes, p.getGameMode());
+            if(gm != null){
+                Bukkit.getScheduler().runTask(CacPlugin.getPlugin(), () -> p.setGameMode((GameMode) gm));
+            }});
+        menu.add(gamemode);
+
+        return menu;
+    }
 }
