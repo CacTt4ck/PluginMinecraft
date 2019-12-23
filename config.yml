@@ -12,6 +12,9 @@ messages:
   plugincommand: Désolé mais cette commande n'existe pas!
   money: $
 
+control-frame:
+  enabled: true
+
 database:
   dbusername: "root"
   dbpassword: ""

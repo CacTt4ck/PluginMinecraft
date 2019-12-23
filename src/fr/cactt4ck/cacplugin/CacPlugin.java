@@ -36,10 +36,6 @@ public class CacPlugin extends JavaPlugin {
 
 		plugin = this;
 
-		SwingUtilities.invokeLater(() -> {
-			frame = new PluginFrame();
-		});
-
 		Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Plugin Enabled!");
 
 		config = getConfig();
@@ -139,6 +135,9 @@ public class CacPlugin extends JavaPlugin {
 		//--------------------------------------------------------//
 
 		this.registerAll();
+        System.out.println(config.getBoolean("control-panel.enabled"));
+        if(config.getBoolean("control-panel.enabled") == true)
+            SwingUtilities.invokeLater(() -> frame = new PluginFrame());
 	}
 
 	@Override
@@ -146,7 +145,8 @@ public class CacPlugin extends JavaPlugin {
 		consoleCommandSender.sendMessage(ChatColor.GREEN + "#####################");
 	    saveDefaultConfig();
 
-		frame.dispose();
+        if(config.getBoolean("control-panel.enabled") == true)
+		    frame.dispose();
 
 		consoleCommandSender.sendMessage(ChatColor.GREEN + "#Config File Saved !#");
 		try {
@@ -199,32 +199,30 @@ public class CacPlugin extends JavaPlugin {
 		CommandExecutor command10 = new HealFeed();
 			getCommand("heal").setExecutor(command10);
 			getCommand("feed").setExecutor(command10);
-		CommandExecutor command12 = new Spotter();
-			getCommand("spotter").setExecutor(command12);
-		CommandExecutor command13 = new Alert();
-			getCommand("alert").setExecutor(command13);
-        CommandExecutor command14 = new WeatherTime();
-            getCommand("sun").setExecutor(command14);
-            getCommand("night").setExecutor(command14);
-            getCommand("rain").setExecutor(command14);
-            getCommand("day").setExecutor(command14);
-            getCommand("midday").setExecutor(command14);
-            getCommand("thunder").setExecutor(command14);
-		CommandExecutor command15 = new Home();
-			getCommand("home").setExecutor(command15);
-			getCommand("sethome").setExecutor(command15);
-			getCommand("delhome").setExecutor(command15);
-		CommandExecutor command16 = new Msg();
-			getCommand("msg").setExecutor(command16);
-		CommandExecutor command17 = new GetPos();
-			getCommand("getpos").setExecutor(command17);
-		CommandExecutor command18 = new Invsee();
-			getCommand("invsee").setExecutor(command18);
-			getCommand("invcopy").setExecutor(command18);
-        CommandExecutor command19 = new PotionEffectToPlayer();
-            getCommand("popo").setExecutor(command19);
-        CommandExecutor command20 = new Furnace();
-            getCommand("furnace").setExecutor(command20);
+		CommandExecutor command11 = new Spotter();
+			getCommand("spotter").setExecutor(command11);
+		CommandExecutor command12 = new Alert();
+			getCommand("alert").setExecutor(command12);
+        CommandExecutor command13 = new WeatherTime();
+            getCommand("sun").setExecutor(command13);
+            getCommand("night").setExecutor(command13);
+            getCommand("rain").setExecutor(command13);
+            getCommand("day").setExecutor(command13);
+            getCommand("midday").setExecutor(command13);
+            getCommand("thunder").setExecutor(command13);
+		CommandExecutor command14 = new Home();
+			getCommand("home").setExecutor(command14);
+			getCommand("sethome").setExecutor(command14);
+			getCommand("delhome").setExecutor(command14);
+		CommandExecutor command15 = new Msg();
+			getCommand("msg").setExecutor(command15);
+		CommandExecutor command16 = new GetPos();
+			getCommand("getpos").setExecutor(command16);
+		CommandExecutor command17 = new Invsee();
+			getCommand("invsee").setExecutor(command17);
+			getCommand("invcopy").setExecutor(command17);
+        CommandExecutor command18 = new Furnace();
+            getCommand("furnace").setExecutor(command18);
 	}
 
 	public static void saveAuths(){
