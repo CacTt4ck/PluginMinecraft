@@ -11,16 +11,12 @@ import org.bukkit.entity.Player;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public class PluginFrame extends JFrame {
 
@@ -71,7 +67,7 @@ class PluginPanel extends JPanel {
     }
 
     private void title(){
-        title = new JLabel("Cacserve");
+        title = new JLabel("Serveur");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setFont(new Font(Font.MONOSPACED,Font.BOLD,40));
         title.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));

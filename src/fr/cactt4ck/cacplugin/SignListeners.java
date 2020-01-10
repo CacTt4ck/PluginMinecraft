@@ -195,6 +195,8 @@ public class SignListeners implements Listener {
 						p.setSaturation(20);
 						p.sendMessage(ChatColor.DARK_PURPLE + "Vous êtes rassasié !");
 
+
+
 					} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Buy]")) {
 
 						final int number = this.getTradeNumber(sign.getLine(1)), price = this.getTradePrice(sign.getLine(3).replace(" $", ""));
@@ -204,7 +206,6 @@ public class SignListeners implements Listener {
 						Inventory chestInv = chest.getBlockInventory();
 
 						if(chestInv.contains(new ItemStack(this.getTradeItem(sign.getLine(2))).getType())){
-							p.sendMessage("item contained");
 							if (number == -1 || item == null || price == -1)
 								p.sendMessage(ChatColor.RED + "Erreur lors de l'achat de l'item ! Il se peut que la pancarte shop soit corrompue !");
 							else {
@@ -226,6 +227,8 @@ public class SignListeners implements Listener {
 						}else {
 							p.sendMessage(ChatColor.RED + "Désolé mais il n'y a plus d'objet en stock");
 						}
+
+
 
 					} else if (sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Sell]")) {
 
