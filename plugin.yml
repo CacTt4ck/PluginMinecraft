@@ -168,10 +168,6 @@ commands:
       description: Copie l'inventaire d'un joueur.
       usage: /<command> <joueur>
 
-  popo:
-      description: Applique l'effet désiré sur un joueur.
-      usage: /<command> <effet> <durée en sec> <niveau de l'effet>
-
   furnace:
       description: Cuit l'item dans votre main automatiquement.
       usage: /<command>
