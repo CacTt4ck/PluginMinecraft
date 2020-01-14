@@ -180,6 +180,7 @@ class PlayerPanel extends JPanel {
                 pLabel.setIcon(new ImageIcon(ImageIO.read(new URL("https://minotar.net/avatar/" + p.getName() + ".png")).getScaledInstance(64,64,0)));
             } catch (IOException e) {e.printStackTrace();}
             JPopupMenu menu = this.getPlayerMenu(p);
+            JPopupMenu playerName = this.getPlayerName(p);
             pLabel.setComponentPopupMenu(menu);
             pLabel.addMouseListener(new MouseAdapter() {
                 @Override
@@ -189,10 +190,26 @@ class PlayerPanel extends JPanel {
                         menu.show(pLabel, e.getX(), e.getY());
                     }
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    playerName.show(pLabel, e.getX(), e.getY());
+                }
             });
             this.add(pLabel);
             i++;
         }
+    }
+
+    private JPopupMenu getPlayerName(Player p){
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem name = new JMenuItem(p.getName());
+        name.setEnabled(false);
+        menu.add(name);
+        menu.addSeparator();
+
+        return menu;
     }
 
     private JPopupMenu getPlayerMenu(Player p){
