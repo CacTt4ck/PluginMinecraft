@@ -234,6 +234,8 @@ public class SignListeners implements Listener {
 
 						final int number = this.getTradeNumber(sign.getLine(1)), price = this.getTradePrice(sign.getLine(3).replace(" $", ""));
 						final ItemStack item = this.getTradeItem(sign.getLine(2));
+                        Chest chest = (Chest)  e.getClickedBlock().getWorld().getBlockAt(e.getClickedBlock().getLocation().add(0.0,-1.0,0.0)).getState();
+                        Inventory chestInv = chest.getBlockInventory();
 
 						if (number == -1 || item == null || price == -1)
 							p.sendMessage(ChatColor.RED + "Erreur lors de la vente de l'item ! Il se peut que la pancarte shop soit corrompue !");
@@ -254,7 +256,12 @@ public class SignListeners implements Listener {
 							}
 							inventory.removeItem(item);
 							Money.giveMoney(p, price);
-							p.sendMessage(ChatColor.GREEN + "Vente effectuée ! " + ChatColor.BLUE + "(+" + price + "$)");
+							if(chestInv.firstEmpty() == -1)
+							    p.sendMessage(ChatColor.RED + "Le stockage est plein!");
+							else {
+                                chestInv.addItem(item);
+                                p.sendMessage(ChatColor.GREEN + "Vente effectuée ! " + ChatColor.BLUE + "(+" + price + "$)");
+                            }
 						}
 
 					}else if(sign.getLine(0).equalsIgnoreCase(ChatColor.DARK_BLUE + "[Trash]")) {

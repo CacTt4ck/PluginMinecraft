@@ -2,7 +2,6 @@ package fr.cactt4ck.cacplugin;
 
 import java.util.UUID;
 
-@SuppressWarnings("all")
 public class NotEnoughMoneyException extends Exception {
 
 	private static final long serialVersionUID = -6436132599941789167L;
